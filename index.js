@@ -1,22 +1,16 @@
-const core = require('@actions/core');
-const wait = require('./wait');
-
+const core = require("@actions/core");
+const dotenv = require("dotenv");
 
 // most @actions toolkit packages have async methods
 async function run() {
-  try { 
-    const ms = core.getInput('milliseconds');
-    console.log(`Waiting ${ms} milliseconds ...`)
+  try {
+    const ms = core.getInput("path");
 
-    core.debug((new Date()).toTimeString())
-    await wait(parseInt(ms));
-    core.debug((new Date()).toTimeString())
-
-    core.setOutput('time', new Date().toTimeString());
-  } 
-  catch (error) {
+    // const config = dotenv.parse('');
+    core.exportVariable("test", "test");
+  } catch (error) {
     core.setFailed(error.message);
   }
 }
 
-run()
+run();
