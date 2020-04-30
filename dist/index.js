@@ -175,11 +175,22 @@ module.exports = require("os");
 
 const core = __webpack_require__(470);
 const dotenv = __webpack_require__(63);
+const { promisify } = __webpack_require__(669);
+const fs = __webpack_require__(747);
+const readFileAsync = promisify(fs.readFile);
 
 // most @actions toolkit packages have async methods
 async function run() {
   try {
-    const ms = core.getInput("path");
+    const path = core.getInput("path") || ".env";
+
+    console.log(`Reading from ${path}`);
+
+    const buffer = await readFileAsync(path);
+
+    const dotFile = dotenv.parse(buffer);
+
+    console.log(dotFile);
 
     // const config = dotenv.parse('');
     core.exportVariable("test", "test");
@@ -454,6 +465,13 @@ exports.group = group;
 /***/ (function(module) {
 
 module.exports = require("path");
+
+/***/ }),
+
+/***/ 669:
+/***/ (function(module) {
+
+module.exports = require("util");
 
 /***/ }),
 
