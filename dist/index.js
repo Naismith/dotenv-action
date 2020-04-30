@@ -184,16 +184,13 @@ async function run() {
   try {
     const path = core.getInput("path") || ".env";
 
-    console.log(`Reading from ${path}`);
-
     const buffer = await readFileAsync(path);
 
     const dotFile = dotenv.parse(buffer);
 
-    console.log(dotFile);
-
-    // const config = dotenv.parse('');
-    core.exportVariable("test", "test");
+    Object.entries(dotFile).forEach(([key, value]) => {
+      core.exportVariable(key, value);
+    });
   } catch (error) {
     core.setFailed(error.message);
   }
